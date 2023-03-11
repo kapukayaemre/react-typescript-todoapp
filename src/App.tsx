@@ -1,9 +1,13 @@
 import React, { ChangeEvent, FC, useState } from "react";
+import { todoType } from "./appTypes";
 import "./App.css";
 
 const App: FC = () => {
   const [task, setTask] = useState<string>("");
   const [day, setDay] = useState<number>(0);
+  const [todoList, setTodoList] = useState<todoType[]>([]);
+
+  console.log(todoList);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.name === "task") {
@@ -11,6 +15,13 @@ const App: FC = () => {
     } else {
       setDay(Number(event.target.value));
     }
+  };
+
+  const addNewTask = () => {
+    const newTask = { taskName: task, day: day };
+    setTodoList([...todoList, newTask]);
+    setTask("");
+    setDay(0);
   };
 
   return (
@@ -30,7 +41,7 @@ const App: FC = () => {
           placeholder="Kaç Günde Tamamlamalısınız?"
           onChange={handleChange}
         />
-        <button>Yeni Task Ekle</button>
+        <button onClick={addNewTask}>Yeni Task Ekle</button>
       </div>
     </div>
   );
